@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>自作ToDo</title>
+</head>
+
+<body>
+  <div>
+    <h1>ToDo</h1>
+    <div class="'input-area">
+      <input type="text" id = "todo-input" placeholder="値を入力してね！">
+      <button onclick = "addTask()">追加</button>
+    </div>
+    <ul id = 'todo-list'>
+    </ul>
+  </div>
+
+<script>
+  function addTask(){
+    const input = document.getElementById('todo-input');
+    const taskText = input.value;
+
+    if(taskText === ''){
+      alert('何か入力してください！');
+      return;
+    }
+
+    const li = document.createElement('li');
+    li.innerText = taskText;
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.innerText = '削除';
+    deleteBtn.className = 'delete-btn';
+    deleteBtn.onclick = function(){
+        li.remove();
+    };
+    
+    li.appendChild(deleteBtn);
+    document.getElementById('todo-list').appendChild(li);
+
+    input.value = '';
+  }
+</script>
+</body>
+
+</html>
