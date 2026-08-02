@@ -7,13 +7,22 @@
   <title>自作ToDo</title>
   <style>
     body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background-color: #d7e4eb;}
+    .container {
+      background-color: #ebf6f7; padding: 20px; border-radius: 8px; box-shadow: 0.2px 5px rgb(0, 0, 0, 0.1); width: 300px; margin-top: 50px;}
+    .input-area {display: flex; gap: 5px;}
+    input {flex: 1; padding: 8px;}
+    button {cursor:pointer; background-color: #75e4e4; color: #2f3030; border: none; padding: 8px 12px; border-radius: 8px;}
+    ul {list-style: none; padding: 0; }
+    /* liのborderの色が変わらない！ */
+    li {background-color: #ffffff; margin: 5px 0; padding: 10px; display: flex; justify-content: space-between; border-radius: 8px; border-color: #000000;}
+    .delete-btn { background-color: #f0a892; font-size: 12px;}
   </style>
 </head>
 
 <body>
-  <div>
-    <h1>ToDo</h1>
-    <div class="'input-area">
+  <div class = 'container'>
+    <h2>ToDo</h2>
+    <div class="input-area">
       <input type="text" id = "todo-input" placeholder="値を入力してね！">
       <button onclick = "addTask()">追加</button>
     </div>
