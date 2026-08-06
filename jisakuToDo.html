@@ -77,9 +77,21 @@
     };
 
     // マウス
-    list.querySelectorAll('.sortable-item').forEach(item) => {
+    list.querySelectorAll('.sortable-item').forEach((item) => {
       item.setAttribute('draggable', 'true');
-    }
+
+      item.addEventListener('dragstart', (e) =>{
+        draggingItem = item;
+        item.classList.add('dragging');
+      });
+
+      item.addEventListener('dragend', () => {
+        if(draggingItem){
+          draggingItem.classList.remove('dragging');
+          draggingItem = null;
+        }
+      });
+    });
   }
 </script>
 </body>
