@@ -92,6 +92,21 @@
         }
       });
     });
+
+    list.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      const afterElement = getDragAfterElement(list, e.clientY);
+      if(afterElement == null){
+        list.appendChild(draggingItem);
+      }else{
+        list.insertBefore(draggingItem, afterElement);
+      }
+    });
+
+    // タッチ
+    let touchDraggingItem = null;
+
+    list.
   }
 </script>
 </body>
