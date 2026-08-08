@@ -6,19 +6,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>自作ToDo</title>
   <style>
-    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background-color: #d7e4eb;}
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #d7e4eb;
+    }
+
     .container {
-      background-color: #ebf6f7; padding: 20px; border-radius: 8px; box-shadow: 0.2px 5px rgb(0, 0, 0, 0.1); width: 300px; margin-top: 50px;}
-    .input-area {display: flex; gap: 5px;}
-    input {flex: 1; padding: 8px;}
-    button {cursor:pointer; background-color: #75e4e4; color: #2f3030; border: none; padding: 8px 12px; border-radius: 8px;}
-    ul {list-style: none; padding: 0; }
+      background-color: #ebf6f7;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0.2px 5px rgb(0, 0, 0, 0.1);
+      width: 300px;
+      margin-top: 50px;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 5px;
+    }
+
+    input {
+      flex: 1;
+      padding: 8px;
+    }
+
+    button {
+      cursor: pointer;
+      background-color: #75e4e4;
+      color: #2f3030;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
     /* liのborderの色が変わらない！ */
-    li {background-color: #ffffff; margin: 5px 0; padding: 10px; display: flex; justify-content: space-between; border: 1px solid; border-color: #bbbbbb; border-radius: 10px;}
-    .delete-btn { background-color: #f0a892; font-size: 12px;}
+    li {
+      background-color: #ffffff;
+      margin: 5px 0;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid;
+      border-color: #bbbbbb;
+      border-radius: 10px;
+    }
+
+    .delete-btn {
+      background-color: #f0a892;
+      font-size: 12px;
+    }
+
     .sortable-item {
       cursor: grab;
     }
+
     .dragging {
       opacity: 0.4;
     }
@@ -27,44 +76,44 @@
 </head>
 
 <body>
-  <div class = 'container'>
+  <div class='container'>
     <h2>ToDo</h2>
     <div class="input-area">
-      <input type="text" id = "todo-input" placeholder="値を入力してね！">
-      <button onclick = "addTask()">追加</button>
+      <input type="text" id="todo-input" placeholder="値を入力してね！">
+      <button onclick="addTask()">追加</button>
     </div>
-    <ul id = 'todo-list'>
+    <ul id='todo-list'>
     </ul>
   </div>
 
-<script>
-  function addTask(){
-    const input = document.getElementById('todo-input');
-    const taskText = input.value;
+  <script>
+    function addTask() {
+      const input = document.getElementById('todo-input');
+      const taskText = input.value;
 
-    if(taskText === ''){
-      alert('何か入力してください！');
-      return;
-    }
+      if (taskText === '') {
+        alert('何か入力してください！');
+        return;
+      }
 
-    const li = document.createElement('li');
-    li.className = 'sortable-item';
-    li.innerText = taskText;
+      const li = document.createElement('li');
+      li.className = 'sortable-item';
+      li.innerText = taskText;
 
-    const deleteBtn = document.createElement('button');
-    deleteBtn.innerText = '削除';
-    deleteBtn.className = 'delete-btn';
-    deleteBtn.onclick = function(){
+      const deleteBtn = document.createElement('button');
+      deleteBtn.innerText = '削除';
+      deleteBtn.className = 'delete-btn';
+      deleteBtn.onclick = function () {
         li.remove();
-    };
-    
-    li.appendChild(deleteBtn);
-    document.getElementById('todo-list').appendChild(li);
+      };
 
-    input.value = '';
-  }
-</script>
-<script>
+      li.appendChild(deleteBtn);
+      document.getElementById('todo-list').appendChild(li);
+
+      input.value = '';
+    }
+  </script>
+  <script>
     const list = document.getElementById('todo-list');
     let draggingItem = null;
     const getDragAfterElement = (container, y) => {
@@ -72,25 +121,25 @@
       return items.reduce((closet, child) => {
         const box = child.getBoundingClientRect();
         const offset = y - (box.top + box.height / 2);
-        if (offset < 0 && offset > closet.offset){
-          return {offset: offset, element: child};
-        }else {
+        if (offset < 0 && offset > closet.offset) {
+          return { offset: offset, element: child };
+        } else {
           return closet;
         }
-      }, {offset: Number.NEGATIVE_INFINITY}).element;
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
     };
 
     // マウス
     list.querySelectorAll('.sortable-item').forEach((item) => {
       item.setAttribute('draggable', 'true');
 
-      item.addEventListener('dragstart', (e) =>{
+      item.addEventListener('dragstart', (e) => {
         draggingItem = item;
         item.classList.add('dragging');
       });
 
       item.addEventListener('dragend', () => {
-        if(draggingItem){
+        if (draggingItem) {
           draggingItem.classList.remove('dragging');
           draggingItem = null;
         }
@@ -100,9 +149,9 @@
     list.addEventListener('dragover', (e) => {
       e.preventDefault();
       const afterElement = getDragAfterElement(list, e.clientY);
-      if(afterElement == null){
+      if (afterElement == null) {
         list.appendChild(draggingItem);
-      }else{
+      } else {
         list.insertBefore(draggingItem, afterElement);
       }
     });
@@ -111,7 +160,7 @@
     let touchDraggingItem = null;
 
     list.querySelectorAll('.sortable-item').forEach((item) => {
-      item.addEventListener('touchstart', (e) =>{
+      item.addEventListener('touchstart', (e) => {
         touchDtaggingItem = item;
         item.classList.add('dragging');
       });
@@ -120,22 +169,22 @@
         e.preventDefault(); // スクロール防止
         const touchY = e.touches[0].clientY;
         const afterElement = getDragAfterElement(list, touchY);
-        if(afterElement == null){
+        if (afterElement == null) {
           list.appendChild(touchDraggingItem);
-        }else{
+        } else {
           list.insertBefore(touchDraggingItem, afterElement);
         }
       });
 
       item.addEventListener('touchend', () => {
-        if(touchDraggingItem){
+        if (touchDraggingItem) {
           touchDraggingItem.classList.remove('dragging');
           touchDraggingItem = null;
         }
       });
     });
 
-</script>
+  </script>
 </body>
 
 </html>
