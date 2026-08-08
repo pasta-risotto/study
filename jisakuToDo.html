@@ -23,6 +23,7 @@
       opacity: 0.4;
     }
   </style>
+  <script></script>
 </head>
 
 <body>
@@ -61,7 +62,10 @@
     document.getElementById('todo-list').appendChild(li);
 
     input.value = '';
-
+  }
+</script>
+<script>
+    const list = document.getElementById('todo-list');
     let draggingItem = null;
     const getDragAfterElement = (container, y) => {
       const items = [...container.querySelectorAll('.sotable-item:not(.dragging)')];
@@ -106,8 +110,31 @@
     // タッチ
     let touchDraggingItem = null;
 
-    list.
-  }
+    list.querySelectorAll('.sortable-item').forEach((item) => {
+      item.addEventListener('touchstart', (e) =>{
+        touchDtaggingItem = item;
+        item.classList.add('dragging');
+      });
+
+      item.addEventListener('touchmove', (e) => {
+        e.preventDefault(); // スクロール防止
+        const touchY = e.touches[0].clientY;
+        const afterElement = getDragAfterElement(list, touchY);
+        if(afterElement == null){
+          list.appendChild(touchDraggingItem);
+        }else{
+          list.insertBefore(touchDraggingItem, afterElement);
+        }
+      });
+
+      item.addEventListener('touchend', () => {
+        if(touchDraggingItem){
+          touchDraggingItem.classList.remove('dragging');
+          touchDraggingItem = null;
+        }
+      });
+    });
+
 </script>
 </body>
 
