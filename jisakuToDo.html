@@ -100,6 +100,18 @@
       li.className = 'sortable-item';
       li.innerText = taskText;
 
+      li.setAttribute('draggable', 'true');
+
+      li.addEventListener('dragstart', (e) => {
+        draggingItem = li;
+        li.classList.add('dragging');
+      });
+
+      li.addEventListener('dragend', () => {
+          li.classList.remove('dragging');
+          draggingItem = null;
+      });
+
       const deleteBtn = document.createElement('button');
       deleteBtn.innerText = '削除';
       deleteBtn.className = 'delete-btn';
@@ -117,7 +129,7 @@
     const list = document.getElementById('todo-list');
     let draggingItem = null;
     const getDragAfterElement = (container, y) => {
-      const items = [...container.querySelectorAll('.sotable-item:not(.dragging)')];
+      const items = [...container.querySelectorAll('.sortable-item:not(.dragging)')];
       return items.reduce((closet, child) => {
         const box = child.getBoundingClientRect();
         const offset = y - (box.top + box.height / 2);
@@ -131,19 +143,7 @@
 
     // マウス
     list.querySelectorAll('.sortable-item').forEach((item) => {
-      item.setAttribute('draggable', 'true');
-
-      item.addEventListener('dragstart', (e) => {
-        draggingItem = item;
-        item.classList.add('dragging');
-      });
-
-      item.addEventListener('dragend', () => {
-        if (draggingItem) {
-          draggingItem.classList.remove('dragging');
-          draggingItem = null;
-        }
-      });
+      
     });
 
     list.addEventListener('dragover', (e) => {
