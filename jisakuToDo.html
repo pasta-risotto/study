@@ -80,15 +80,15 @@
     <h2>ToDo</h2>
     <div class="input-area">
       <input type="text" id="todo-input" placeholder="値を入力してね！">
-      <!-- onclickはHTMLとJavascriptのコードを混在させるから良くない！ -->
-      <button onclick="addTask()">追加</button>
+      <!-- onclickを訂正してhtmlとscriptを分けた！ -->
+      <button id = "btn">追加</button>
     </div>
     <ul id='todo-list'>
     </ul>
   </div>
 
   <script>
-    function addTask() {
+    document.querySelector('#btn').addEventListener('click',function(){
       const input = document.getElementById('todo-input');
       const taskText = input.value;
 
@@ -124,7 +124,7 @@
       document.getElementById('todo-list').appendChild(li);
 
       input.value = '';
-    }
+    }, false);
   </script>
   <script>
     const list = document.getElementById('todo-list');
